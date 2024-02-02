@@ -25,5 +25,4 @@ namespace Library
         public int Pages { get; set; }
         public Tags Tags { get; set; }
     }
-    }
 }
