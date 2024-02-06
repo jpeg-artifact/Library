@@ -10,7 +10,7 @@
 
             while (isRunning)
             {
-                commandChunks = Console.ReadLine().Split(";");
+                commandChunks = Console.ReadLine().Split("; ");
                 switch (commandChunks[0].ToLower())
                 {
                     case "add":
@@ -41,12 +41,12 @@
         {
             foreach (Book book in books)
             {
-                Console.WriteLine($"{book.Title} info: ");
-                Console.WriteLine(book.Author);
-                Console.WriteLine(book.Genre);
-                Console.WriteLine(book.Description);
-                Console.WriteLine(book.Pages);
-                Console.WriteLine(book.Tags);
+                Console.WriteLine($"'{book.Title}' info: ");
+                Console.WriteLine($"Author: '{book.Author}'");
+                Console.WriteLine($"Genre: '{book.Genre}'");
+                Console.WriteLine($"Description: '{book.Description}'");
+                Console.WriteLine($"Number of pages: {book.Pages}");
+                Console.WriteLine($"Tags: {book.Tags}");
                 Console.WriteLine();
             }
         }
