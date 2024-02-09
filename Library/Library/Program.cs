@@ -10,6 +10,8 @@
             List<Book> books = new();
             List<Book> lendBooks = new();
 
+            ReadFile(books);
+
             while (isRunning)
             {
                 commandChunks = Console.ReadLine().Split("; ");
@@ -33,20 +35,23 @@
 
             foreach (Book book in books)
             {
-                writeFile.WriteLine($"{book.Title};{book.Author};{book.Genre};{book.Description};{book.Pages};{book.Tags}");
+                writeFile.WriteLine($"book;{book.Title};{book.Author};{book.Genre};{book.Description};{book.Pages};{book.Tags}");
             }
 
             writeFile.Close();
         }
 
-        static void ReadFile()
+        static void ReadFile(List<Book> books)
         {
             StreamReader readFile = new("LibraryData.txt");
             string s;
 
+            books.Clear();
+
             while ((s = readFile.ReadLine()) != null)
             {
-
+                string[] sChunks = s.Split(";");
+                books.Add(StringToBook(sChunks));
             }
         }
 
@@ -64,14 +69,14 @@
             }
         }
 
-        static Book StringToBook(string[] s)
+        static Book StringToBook(string[] sChunks)
         {
-            string title = s[1];
-            string author = s[2];
-            Genre genre = Enum.Parse<Genre>(s[3]);
-            string description = s[4];
-            int pages = int.Parse(s[5]);
-            string[] tagsChunk = s[6].Split(",");
+            string title = sChunks[1];
+            string author = sChunks[2];
+            Genre genre = Enum.Parse<Genre>(sChunks[3]);
+            string description = sChunks[4];
+            int pages = int.Parse(sChunks[5]);
+            string[] tagsChunk = sChunks[6].Split(",");
             int tags = tagsChunk.Select(Enum.Parse<Tags>).Cast<int>().Sum();
             return new Book(title, author, genre, description, pages, (Tags)tags);
         }
@@ -84,15 +89,9 @@
                 return;
             }
 
-            string title = commandChunks[1];
-            string author = commandChunks[2];
-            Genre genre = Enum.Parse<Genre>(commandChunks[3]);
-            string description = commandChunks[4];
-            int pages = int.Parse(commandChunks[5]);
-            string[] tagsChunk = commandChunks[6].Split(",");
-            int tags = tagsChunk.Select(Enum.Parse<Tags>).Cast<int>().Sum();
+            Book book = StringToBook(commandChunks);
 
-            books.Add(new Book(title, author, genre, description, pages, (Tags)tags));
+            books.Add(book);
         }
 
         static void PrintAll(List<Book> books)
