@@ -7,6 +7,7 @@
             string[] commandChunks;
             bool isRunning = true;
             List<Book> books = new();
+            List<Book> lendBooks = new();
 
             while (isRunning)
             {
