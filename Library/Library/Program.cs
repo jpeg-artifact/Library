@@ -53,6 +53,8 @@
                 string[] sChunks = s.Split(";");
                 books.Add(StringToBook(sChunks));
             }
+
+            readFile.Close();
         }
 
         static bool EnterPassword(string password)

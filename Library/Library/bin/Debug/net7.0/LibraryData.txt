@@ -1,1 +1,2 @@
-Book;Title;a;Brevroman;b;190;Barn
+book;Title;a;Brevroman;b;190;Barn
+book;Bible;Moses;Myt;Holy book;1000;Barn, Ungdom, Vuxen
