@@ -4,7 +4,6 @@
     {
         static void Main(string[] args)
         {
-            string password = new StreamReader("Password.txt").ReadLine();
             string[] commandChunks;
             bool isRunning = true;
             List<Book> books = new();
@@ -18,12 +17,15 @@
                 switch (commandChunks[0].ToLower())
                 {
                     case "add":
-                        Console.WriteLine(commandChunks[0].ToLower());
-                        AddBook(books, commandChunks, EnterPassword(password)); // add;Title;Author;Genre;Description;Pages;Tags
+                        AddBook(books, commandChunks, EnterPassword()); // add; Title; Author; Genre; Description; Pages; Tags
                         WriteFile(books);
                         break;
                     case "print":
                         PrintAll(books);
+                        break;
+                    case "remove":
+                        RemoveBook(books, commandChunks, EnterPassword()); // remove; Title; Author
+                        WriteFile(books);
                         break;
                 }
             }
@@ -57,8 +59,9 @@
             readFile.Close();
         }
 
-        static bool EnterPassword(string password)
+        static bool EnterPassword()
         {
+            String password = new StreamReader("Password.txt").ReadLine();
             Console.Write("Enter password: ");
             string enteredPassword = Console.ReadLine();
             if (enteredPassword == password)
@@ -94,6 +97,24 @@
             Book book = StringToBook(commandChunks);
 
             books.Add(book);
+        }
+
+        static void RemoveBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect)
+        {
+            if (!isPasswordCorrect)
+            {
+                Console.WriteLine("Incorrect password");
+                return;
+            }
+
+            foreach(Book book in books)
+            {
+                if (book.Title == commandChunks[1] && book.Author == book.Author)
+                {
+                    books.Remove(book);
+                    break;
+                }
+            }
         }
 
         static void PrintAll(List<Book> books)
