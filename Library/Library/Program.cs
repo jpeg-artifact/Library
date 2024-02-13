@@ -1,4 +1,6 @@
-﻿namespace Library
+﻿using System.Runtime.CompilerServices;
+
+namespace Library
 {
     internal class Program
     {
@@ -25,6 +27,10 @@
                         break;
                     case "remove":
                         RemoveBook(books, commandChunks, EnterPassword()); // remove; Title; Author
+                        WriteFile(books);
+                        break;
+                    case "edit":
+                        EditBook(books, commandChunks);
                         WriteFile(books);
                         break;
                 }
@@ -117,6 +123,60 @@
             }
         }
 
+        static void EditBook(List<Book> books, string[] commandChunks)
+        {
+            string title = commandChunks[1];
+            string author = commandChunks[2];
+            string[] properties = commandChunks[3].Split(", ");
+            Book? currentBook = null;
+
+            // Searches for matching book
+            foreach (Book book in books)
+            {
+                if (book.Title == title && book.Author == author)
+                {
+                    currentBook = book;
+                    break;
+                }
+                currentBook = null;
+            }
+
+            // If no book is found return out of method
+            if (currentBook == null) return;
+
+            foreach (string propertyChunk in properties)
+            {
+                string property = propertyChunk.Split(" = ")[0];
+                string newValue = propertyChunk.Split(" = ")[1];
+                
+                switch (property.ToLower())
+                {
+                    case "title":
+                        currentBook.Title = newValue;
+                        break;
+                    case "author":
+                        currentBook.Author = newValue;
+                        break;
+                    case "genre":
+                        currentBook.Genre = Enum.Parse<Genre>(newValue);
+                        break;
+                    case "description":
+                        currentBook.Description = newValue;
+                        break;
+                    case "pages":
+                        currentBook.Pages = int.Parse(newValue);
+                        break;
+                    case "Tags":
+                        string[] tagsChunk = newValue.Split(",");
+                        int tags = tagsChunk.Select(Enum.Parse<Tags>).Cast<int>().Sum();
+                        break;
+                    default:
+                        Console.WriteLine("No property found");
+                        break;
+                }
+            }
+        }
+
         static void PrintAll(List<Book> books)
         {
             foreach (Book book in books)
@@ -125,7 +185,7 @@
                 Console.WriteLine($"Author: '{book.Author}'");
                 Console.WriteLine($"Genre: '{book.Genre}'");
                 Console.WriteLine($"Description: '{book.Description}'");
-                Console.WriteLine($"Number of pages: {book.Pages}");
+                Console.WriteLine($"Pages: {book.Pages}");
                 Console.WriteLine($"Tags: {book.Tags}");
                 Console.WriteLine();
             }
