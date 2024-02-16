@@ -43,7 +43,7 @@ namespace Library
 
             foreach (Book book in books)
             {
-                writeFile.WriteLine($"book;{book.Title};{book.Author};{book.Genre};{book.Description};{book.Pages};{book.Tags}");
+                writeFile.WriteLine($"book;{book.Title};{book.Author};{book.Genre};{book.Description};{book.Pages};{book.Tags};{book.IsLend}");
             }
 
             writeFile.Close();
@@ -87,9 +87,10 @@ namespace Library
             Genre genre = Enum.Parse<Genre>(sChunks[3]);
             string description = sChunks[4];
             int pages = int.Parse(sChunks[5]);
-            string[] tagsChunk = sChunks[6].Split(",");
+            string[] tagsChunk = sChunks[6].Split(" | ");
             int tags = tagsChunk.Select(Enum.Parse<Tags>).Cast<int>().Sum();
-            return new Book(title, author, genre, description, pages, (Tags)tags);
+            bool isLend = false;
+            return new Book(title, author, genre, description, pages, (Tags)tags, isLend);
         }
 
         static void AddBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect)
@@ -123,7 +124,7 @@ namespace Library
             }
         }
 
-        static void EditBook(List<Book> books, string[] commandChunks)
+        static void EditBook(List<Book> books, string[] commandChunks) // edit; Title; Author; Property = newValue, etc.
         {
             string title = commandChunks[1];
             string author = commandChunks[2];
@@ -166,9 +167,10 @@ namespace Library
                     case "pages":
                         currentBook.Pages = int.Parse(newValue);
                         break;
-                    case "Tags":
-                        string[] tagsChunk = newValue.Split(",");
+                    case "tags":
+                        string[] tagsChunk = newValue.Split(" | ");
                         int tags = tagsChunk.Select(Enum.Parse<Tags>).Cast<int>().Sum();
+                        currentBook.Tags = (Tags)tags;
                         break;
                     default:
                         Console.WriteLine("No property found");
