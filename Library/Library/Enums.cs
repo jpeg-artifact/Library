@@ -17,7 +17,7 @@ enum Genre
 enum Tags
 {
     None = 0,
-    Barn = 1,
-    Ungdom = 2,
-    Vuxen = 4,
+    Kids = 1,
+    Youth = 2,
+    Adult = 4,
 }

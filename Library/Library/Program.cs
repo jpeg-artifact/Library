@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System;
+using System.Runtime.CompilerServices;
 
 namespace Library
 {
@@ -17,6 +18,9 @@ namespace Library
 
             while (isRunning)
             {
+                Console.Clear();
+                Help();
+                Console.Write("Enter a command: ");
                 commandChunks = Console.ReadLine().Split("; ");
                 switch (commandChunks[0].ToLower())
                 {
@@ -24,7 +28,7 @@ namespace Library
                         AddBook(books, commandChunks, EnterPassword()); // add; Title; Author; Genre; Description; Pages; Tags
                         WriteFile(books);
                         break;
-                    case "print":
+                    case "print_all":
                         PrintAll(books);
                         break;
                     case "remove":
@@ -36,12 +40,29 @@ namespace Library
                         WriteFile(books);
                         break;
                 }
+
+                Console.ReadKey();
             }
         }
 
         static void Help()
         {
+            Console.ForegroundColor = ConsoleColor.Gray;
             //Genres
+            Console.WriteLine("These are the available genres: ");
+            foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+            {
+                Console.WriteLine(genre);
+            }
+            Console.WriteLine("------------------------");
+
+            //Tags
+            Console.WriteLine("These are the available tags: ");
+            foreach (Tags tag in Enum.GetValues(typeof(Tags)))
+            {
+                Console.WriteLine(tag);
+            }
+            Console.WriteLine("------------------------");
 
             //Commands
             Console.ForegroundColor = ConsoleColor.Blue;
@@ -55,7 +76,9 @@ namespace Library
             Console.WriteLine("remove; Title; Author");
             Console.WriteLine("edit; Title; Author");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
-            Console.WriteLine("print");
+            Console.WriteLine("print_all");
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine("------------------------");
         }
 
         static void WriteFile(List<Book> books)
@@ -208,6 +231,9 @@ namespace Library
 
         static void PrintAll(List<Book> books)
         {
+            Console.Clear();
+            Console.WriteLine("These are all the books in the library:");
+
             foreach (Book book in books)
             {
                 Console.WriteLine($"'{book.Title}' info: ");
@@ -216,8 +242,22 @@ namespace Library
                 Console.WriteLine($"Description: '{book.Description}'");
                 Console.WriteLine($"Pages: {book.Pages}");
                 Console.WriteLine($"Tags: {book.Tags}");
-                Console.WriteLine();
+                if (book.IsLend)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Availability: This book is NOT available.");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Availability: This book is available.");
+                }
             }
+
+            Console.ForegroundColor = ConsoleColor.Gray;
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.Write("Press any button to continue");
         }
     }
 }
