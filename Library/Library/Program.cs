@@ -11,15 +11,14 @@ namespace Library
             bool isRunning = true;
             List<Book> books = new();
             List<Book> lendBooks = new();
-
-            Help();
+            Book? pinnedBook = null;
 
             ReadFile(books);
 
             while (isRunning)
             {
                 Console.Clear();
-                Help();
+                PrintMenu(pinnedBook);
                 Console.Write("Enter a command: ");
                 commandChunks = Console.ReadLine().Split("; ");
                 switch (commandChunks[0].ToLower())
@@ -39,10 +38,22 @@ namespace Library
                         EditBook(books, commandChunks, EnterPassword());
                         WriteFile(books);
                         break;
+                    case "pin_book":
+                        PinBook(books, pinnedBook, commandChunks);
+                        break;
                 }
 
                 Console.ReadKey();
             }
+        }
+
+        static void PrintMenu(Book? pinnedBook)
+        {
+            Help();
+
+            //Pinned book
+            Console.WriteLine($"Pinned book:");
+            PrintBook(pinnedBook);
         }
 
         static void Help()
@@ -77,8 +88,21 @@ namespace Library
             Console.WriteLine("edit; Title; Author");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("print_all");
+            Console.WriteLine("pin_book");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("------------------------");
+        }
+
+        static void PinBook(List<Book> books, Book? pinnedBook, string[] commandChunks)
+        {
+            foreach(Book book in books)
+            {
+                if (book.Title == commandChunks[1] && book.Author == commandChunks[2])
+                {
+                    pinnedBook = book;
+                    Console.WriteLine($"{book.Title} by {book.Author} is now pinned");
+                }
+            }
         }
 
         static void WriteFile(List<Book> books)
@@ -229,6 +253,26 @@ namespace Library
             }
         }
 
+        static void PrintBook(Book book)
+        {
+            if (book == null) return;
+
+            Console.WriteLine($"'{book.Title}' by {book.Author} info: ");
+            Console.WriteLine($"Genre: '{book.Genre}'");
+            Console.WriteLine($"Description: '{book.Description}'");
+            Console.WriteLine($"Pages: {book.Pages}");
+            Console.WriteLine($"Tags: {book.Tags}");
+            if (book.IsLend)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Availability: This book is NOT available.");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine($"Availability: This book is available.");
+            }
+        }
         static void PrintAll(List<Book> books)
         {
             Console.Clear();
@@ -236,22 +280,7 @@ namespace Library
 
             foreach (Book book in books)
             {
-                Console.WriteLine($"'{book.Title}' info: ");
-                Console.WriteLine($"Author: '{book.Author}'");
-                Console.WriteLine($"Genre: '{book.Genre}'");
-                Console.WriteLine($"Description: '{book.Description}'");
-                Console.WriteLine($"Pages: {book.Pages}");
-                Console.WriteLine($"Tags: {book.Tags}");
-                if (book.IsLend)
-                {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Availability: This book is NOT available.");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Availability: This book is available.");
-                }
+                PrintBook(book);
             }
 
             Console.ForegroundColor = ConsoleColor.Gray;
