@@ -30,11 +30,30 @@ namespace Library
                         WriteFile(books);
                         break;
                     case "edit":
-                        EditBook(books, commandChunks);
+                        EditBook(books, commandChunks, EnterPassword());
                         WriteFile(books);
                         break;
                 }
             }
+        }
+
+        static void Help()
+        {
+            //Genres
+
+            //Commands
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("Red commands require password.");
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine("Green commands DO NOT require password.");
+            Console.BackgroundColor = ConsoleColor.Black;
+            Console.WriteLine("These are all the available commands: ");
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("add; Title; Author; Genre; Description; Pages; Tags");
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine("remove; Title; Author");
+            Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine("print");
         }
 
         static void WriteFile(List<Book> books)
@@ -124,8 +143,14 @@ namespace Library
             }
         }
 
-        static void EditBook(List<Book> books, string[] commandChunks) // edit; Title; Author; Property = newValue, etc.
+        static void EditBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect) // edit; Title; Author; Property = newValue, etc.
         {
+            if (!isPasswordCorrect)
+            {
+                Console.WriteLine("Incorrect password");
+                return;
+            }
+
             string title = commandChunks[1];
             string author = commandChunks[2];
             string[] properties = commandChunks[3].Split(", ");
