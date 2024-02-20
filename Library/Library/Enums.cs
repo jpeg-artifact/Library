@@ -6,22 +6,11 @@ using System.Threading.Tasks;
 
 enum Genre
 {
-    Historical_Fiction,
-    Science_fiction,
-    Fantasy,
-    Realistic_Fiction,
-    Mystery,
-    Biography,
-    Autobiography,
-    Informational,
-    Legend,
-    Fable,
-    Fairy_Tale,
-    Myth,
-    Tall_Tale,
+    Fiction,
+    Nonfiction,
+    Folklore,
     Drama,
-    Poetry,
-    Religious
+    Poetry
 }
 
 [Flags]

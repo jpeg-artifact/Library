@@ -11,6 +11,8 @@ namespace Library
             List<Book> books = new();
             List<Book> lendBooks = new();
 
+            Help();
+
             ReadFile(books);
 
             while (isRunning)
@@ -42,17 +44,17 @@ namespace Library
             //Genres
 
             //Commands
-            Console.BackgroundColor = ConsoleColor.Red;
-            Console.WriteLine("Red commands require password.");
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.WriteLine("Green commands DO NOT require password.");
-            Console.BackgroundColor = ConsoleColor.Black;
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Blue commands require password.");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine("Dark yellow commands DO NOT require password.\n");
+            Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("These are all the available commands: ");
-            Console.BackgroundColor = ConsoleColor.Red;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("add; Title; Author; Genre; Description; Pages; Tags");
-            Console.BackgroundColor = ConsoleColor.Red;
             Console.WriteLine("remove; Title; Author");
-            Console.BackgroundColor = ConsoleColor.Green;
+            Console.WriteLine("edit; Title; Author");
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("print");
         }
 
