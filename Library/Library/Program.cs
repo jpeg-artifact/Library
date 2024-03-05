@@ -53,6 +53,9 @@ namespace Library
                     case "search_title":
                         SearchTitle(commandChunks);
                         break;
+                    case "search_author":
+                        SearchAuthor(commandChunks);
+                        break;
                     default:
                         Console.WriteLine("No command found");
                         break;
@@ -335,7 +338,11 @@ namespace Library
                 if (commandChunks[1] == book.Title && commandChunks[2] == book.Author)
                 {
                     Console.Clear();
+                    Console.WriteLine("1.");
                     PrintBook(book);
+
+                    if (Console.ReadLine() == ) // TODO Make it posible to pin from search
+
                     return;
                 }
             }
