@@ -6,14 +6,14 @@ namespace Library
     internal class Program
     {
         static Book? pinnedBook = null;
+        static List<Book> books = new();
+        static List<Book> lendBooks = new();
         static void Main(string[] args)
         {
             string[] commandChunks;
             bool isRunning = true;
-            List<Book> books = new();
-            List<Book> lendBooks = new();
 
-            ReadFile(books);
+            ReadFile();
 
             while (isRunning)
             {
@@ -28,32 +28,30 @@ namespace Library
                 switch (commandChunks[0].ToLower())
                 {
                     case "add":
-                        AddBook(books, commandChunks, EnterPassword()); // add; Title; Author; Genre; Description; Pages; Tags
-                        WriteFile(books);
+                        AddBook(commandChunks, EnterPassword()); // add; Title; Author; Genre; Description; Pages; Tags
+                        WriteFile();
                         break;
                     case "print_all":
-                        PrintAll(books);
+                        PrintAll();
                         break;
                     case "remove":
-                        RemoveBook(books, commandChunks, EnterPassword()); // remove; Title; Author
-                        WriteFile(books);
+                        RemoveBook(commandChunks, EnterPassword()); // remove; Title; Author
+                        WriteFile();
                         break;
                     case "edit":
-                        EditBook(books, commandChunks, EnterPassword());
-                        WriteFile(books);
+                        EditBook(commandChunks, EnterPassword());
+                        WriteFile();
                         break;
                     case "pin":
-                        PinBook(books, commandChunks);
+                        PinBook(commandChunks);
+                        break;
+                    case "search":
+                        SearchBook(commandChunks);
                         break;
                 }
 
                 Console.ReadKey();
             }
-        }
-
-        static void PrintMenu()
-        {
-            Help();
         }
 
         static void Help()
@@ -88,25 +86,25 @@ namespace Library
             Console.WriteLine("edit; Title; Author");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("print_all");
-            Console.WriteLine("pin");
+            Console.WriteLine("search; Title; Author");
+            Console.WriteLine("pin; Title; Author");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("------------------------");
         }
 
-        static void PinBook(List<Book> books, string[] commandChunks)
+        static void PinBook(string[] commandChunks)
         {
             foreach(Book book in books)
             {
                 if (book.Title == commandChunks[1] && book.Author == commandChunks[2])
                 {
                     pinnedBook = book;
-                    PrintBook(pinnedBook);
                     Console.WriteLine($"{book.Title} by {book.Author} is now pinned");
                 }
             }
         }
 
-        static void WriteFile(List<Book> books)
+        static void WriteFile()
         {
             StreamWriter writeFile = new("LibraryData.txt");
 
@@ -118,7 +116,7 @@ namespace Library
             writeFile.Close();
         }
 
-        static void ReadFile(List<Book> books)
+        static void ReadFile()
         {
             StreamReader readFile = new("LibraryData.txt");
             string s;
@@ -162,7 +160,7 @@ namespace Library
             return new Book(title, author, genre, description, pages, (Tags)tags, isLend);
         }
 
-        static void AddBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect)
+        static void AddBook(string[] commandChunks, bool isPasswordCorrect)
         {
             if (!isPasswordCorrect)
             {
@@ -175,7 +173,7 @@ namespace Library
             books.Add(book);
         }
 
-        static void RemoveBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect)
+        static void RemoveBook(string[] commandChunks, bool isPasswordCorrect)
         {
             if (!isPasswordCorrect)
             {
@@ -193,7 +191,7 @@ namespace Library
             }
         }
 
-        static void EditBook(List<Book> books, string[] commandChunks, bool isPasswordCorrect) // edit; Title; Author; Property = newValue, etc.
+        static void EditBook(string[] commandChunks, bool isPasswordCorrect) // edit; Title; Author; Property = newValue, etc.
         {
             if (!isPasswordCorrect)
             {
@@ -275,8 +273,9 @@ namespace Library
                 Console.WriteLine($"Availability: This book is available.");
                 Console.ForegroundColor= ConsoleColor.Gray;
             }
+            Console.WriteLine();
         }
-        static void PrintAll(List<Book> books)
+        static void PrintAll()
         {
             Console.Clear();
             Console.WriteLine("These are all the books in the library:");
@@ -290,6 +289,21 @@ namespace Library
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.Write("Press any button to continue");
+        }
+
+        static void SearchBook(string[] commandChunks)
+        {
+            foreach(Book book in books)
+            {
+                if (commandChunks[1] == book.Title && commandChunks[2] == book.Author)
+                {
+                    Console.Clear();
+                    PrintBook(book);
+                    return;
+                }
+            }
+
+            Console.WriteLine("No book found.");
         }
     }
 }
