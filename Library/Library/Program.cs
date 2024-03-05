@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Library
 {
@@ -29,14 +30,14 @@ namespace Library
                 switch (commandChunks[0].ToLower())
                 {
                     case "add":
-                        AddBook(commandChunks, EnterPassword()); // add; Title; Author; Genre; Description; Pages; Tags
+                        AddBook(commandChunks, EnterPassword());
                         WriteFile();
                         break;
                     case "print_all":
                         PrintAll();
                         break;
                     case "remove":
-                        RemoveBook(commandChunks, EnterPassword()); // remove; Title; Author
+                        RemoveBook(commandChunks, EnterPassword());
                         WriteFile();
                         break;
                     case "edit":
@@ -52,6 +53,9 @@ namespace Library
                     case "search_title":
                         SearchTitle(commandChunks);
                         break;
+                    default:
+                        Console.WriteLine("No command found");
+                        break;
                 }
 
                 Console.ForegroundColor = ConsoleColor.Magenta;
@@ -64,10 +68,38 @@ namespace Library
         {
             Console.ForegroundColor = ConsoleColor.Gray;
             //Genres
-            Console.WriteLine("These are the available genres: ");
+            int genreAmount = 0;
             foreach (Genre genre in Enum.GetValues(typeof(Genre)))
             {
-                Console.WriteLine(genre);
+                genreAmount++;
+            }
+            int tagAmount = 0;
+            foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+            {
+                tagAmount++;
+            }
+
+            int lineAmount = 0;
+            if (genreAmount > tagAmount) lineAmount = genreAmount;
+            else lineAmount = tagAmount;
+            for (int i = 0; i < genreAmount; i++)
+            {
+                //TODO Finish list printing
+            }
+
+            Console.WriteLine("These are the available genres:                   These are the available tags:");
+            foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+            {
+                string line = "";
+                line += genre;
+                int spaces = 50 - line.Length;
+                for (int i = 0; i < spaces; i++)
+                {
+                    line += " ";
+                }
+                line += "Heloo";
+
+                Console.WriteLine(line);
             }
             Console.WriteLine("------------------------");
 
