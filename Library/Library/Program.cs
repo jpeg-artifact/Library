@@ -5,21 +5,25 @@ namespace Library
 {
     internal class Program
     {
+        static Book? pinnedBook = null;
         static void Main(string[] args)
         {
             string[] commandChunks;
             bool isRunning = true;
             List<Book> books = new();
             List<Book> lendBooks = new();
-            Book? pinnedBook = null;
 
             ReadFile(books);
 
             while (isRunning)
             {
                 Console.Clear();
-                PrintMenu(pinnedBook);
+                //Print menu
+                Help();
+                Console.WriteLine($"Pinned book:");
+                if (pinnedBook != null) PrintBook(pinnedBook);
                 Console.Write("Enter a command: ");
+
                 commandChunks = Console.ReadLine().Split("; ");
                 switch (commandChunks[0].ToLower())
                 {
@@ -38,8 +42,8 @@ namespace Library
                         EditBook(books, commandChunks, EnterPassword());
                         WriteFile(books);
                         break;
-                    case "pin_book":
-                        PinBook(books, pinnedBook, commandChunks);
+                    case "pin":
+                        PinBook(books, commandChunks);
                         break;
                 }
 
@@ -47,13 +51,9 @@ namespace Library
             }
         }
 
-        static void PrintMenu(Book? pinnedBook)
+        static void PrintMenu()
         {
             Help();
-
-            //Pinned book
-            Console.WriteLine($"Pinned book:");
-            PrintBook(pinnedBook);
         }
 
         static void Help()
@@ -88,18 +88,19 @@ namespace Library
             Console.WriteLine("edit; Title; Author");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("print_all");
-            Console.WriteLine("pin_book");
+            Console.WriteLine("pin");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("------------------------");
         }
 
-        static void PinBook(List<Book> books, Book? pinnedBook, string[] commandChunks)
+        static void PinBook(List<Book> books, string[] commandChunks)
         {
             foreach(Book book in books)
             {
                 if (book.Title == commandChunks[1] && book.Author == commandChunks[2])
                 {
                     pinnedBook = book;
+                    PrintBook(pinnedBook);
                     Console.WriteLine($"{book.Title} by {book.Author} is now pinned");
                 }
             }
@@ -253,7 +254,7 @@ namespace Library
             }
         }
 
-        static void PrintBook(Book book)
+        static void PrintBook(Book? book)
         {
             if (book == null) return;
 
@@ -266,11 +267,13 @@ namespace Library
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($"Availability: This book is NOT available.");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
             else
             {
                 Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine($"Availability: This book is available.");
+                Console.ForegroundColor= ConsoleColor.Gray;
             }
         }
         static void PrintAll(List<Book> books)

@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-02-16T10:26:22.307Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36" etag="fSrBf5iSKODhLHtPvyO3" version="23.1.3" type="device">
+<mxfile host="app.diagrams.net" modified="2024-02-23T09:54:44.399Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36" etag="b4DMLOUHN3BMjx2ThErR" version="23.1.5" type="device">
   <diagram id="C5RBs43oDa-KdzZeNtuy" name="Page-1">
-    <mxGraphModel dx="1551" dy="384" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1994" dy="619" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-0" />
         <mxCell id="WIyWlLk6GJQsqaUBKTNV-1" parent="WIyWlLk6GJQsqaUBKTNV-0" />
@@ -389,6 +389,9 @@
             <mxPoint x="780" y="3320.3157894736846" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="kZYcSaOrF17bpfCMkL6U-3" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" edge="1" parent="WIyWlLk6GJQsqaUBKTNV-1" source="5jzYrLNi0Wke-sMAbvRR-86" target="kZYcSaOrF17bpfCMkL6U-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
         <mxCell id="5jzYrLNi0Wke-sMAbvRR-86" value="Loop through all books and print book with mathich tags" style="whiteSpace=wrap;html=1;rounded=1;arcSize=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="292" y="3290" width="120" height="60" as="geometry" />
         </mxCell>
@@ -572,6 +575,9 @@
         </mxCell>
         <mxCell id="H631bm8L09V6OPQ7mucU-3" value="Write to file" style="whiteSpace=wrap;html=1;rounded=1;arcSize=0;" parent="WIyWlLk6GJQsqaUBKTNV-1" vertex="1">
           <mxGeometry x="610" y="770" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="kZYcSaOrF17bpfCMkL6U-2" value="Bryt ut i mindre delar" style="whiteSpace=wrap;html=1;rounded=1;arcSize=0;" vertex="1" parent="WIyWlLk6GJQsqaUBKTNV-1">
+          <mxGeometry x="125" y="3300" width="120" height="60" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
