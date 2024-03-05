@@ -18,9 +18,10 @@ namespace Library
             while (isRunning)
             {
                 Console.Clear();
+                Console.ForegroundColor = ConsoleColor.Gray;
                 //Print menu
                 Help();
-                Console.WriteLine($"Pinned book:");
+                Console.WriteLine("Pinned book:");
                 if (pinnedBook != null) PrintBook(pinnedBook);
                 Console.Write("Enter a command: ");
 
@@ -48,8 +49,13 @@ namespace Library
                     case "search":
                         SearchBook(commandChunks);
                         break;
+                    case "search_title":
+                        SearchTitle(commandChunks);
+                        break;
                 }
 
+                Console.ForegroundColor = ConsoleColor.Magenta;
+                Console.Write("Press any button to continue");
                 Console.ReadKey();
             }
         }
@@ -87,6 +93,8 @@ namespace Library
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine("print_all");
             Console.WriteLine("search; Title; Author");
+            Console.WriteLine("search_author; Author");
+            Console.WriteLine("search_title; Title");
             Console.WriteLine("pin; Title; Author");
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine("------------------------");
@@ -287,8 +295,6 @@ namespace Library
 
             Console.ForegroundColor = ConsoleColor.Gray;
             Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.Write("Press any button to continue");
         }
 
         static void SearchBook(string[] commandChunks)
@@ -304,6 +310,40 @@ namespace Library
             }
 
             Console.WriteLine("No book found.");
+        }
+
+        static void SearchTitle(string[] commandChunks)
+        {
+            bool bookFound = false;
+            Console.Clear();
+
+            foreach (Book book in books)
+            {
+                if (commandChunks[1] == book.Title)
+                {
+                    PrintBook(book);
+                    bookFound = true;
+                }
+            }
+
+            if (!bookFound) Console.WriteLine("No books found.");
+        }
+
+        static void SearchAuthor(string[] commandChunks)
+        {
+            bool bookFound = false;
+            Console.Clear();
+
+            foreach (Book book in books)
+            {
+                if (commandChunks[1] == book.Author)
+                {
+                    PrintBook(book);
+                    bookFound = true;
+                }
+            }
+
+            if (!bookFound) Console.WriteLine("No books found.");
         }
     }
 }
