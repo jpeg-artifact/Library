@@ -17,7 +17,9 @@ enum Genre
 enum Tags
 {
     None = 0,
-    Kids = 1,
-    Youth = 2,
-    Adult = 4,
+    Baby = 1,
+    Kids = 2,
+    Youth = 4,
+    Adult = 8,
+    Senior = 16,
 }

@@ -66,52 +66,51 @@ namespace Library
 
         static void Help()
         {
+            // Write title
+            Console.WriteLine("These are the available genres:                   These are the available tags:");
             Console.ForegroundColor = ConsoleColor.Gray;
-            //Genres
+            List<string> genres = new();
+            List<string> tags = new();
             int genreAmount = 0;
+            // Add genres and tags to separate lists
             foreach (Genre genre in Enum.GetValues(typeof(Genre)))
             {
                 genreAmount++;
+                genres.Add(genre.ToString());
             }
             int tagAmount = 0;
-            foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+            foreach (Tags tag in Enum.GetValues(typeof(Tags)))
             {
                 tagAmount++;
+                tags.Add(tag.ToString());
             }
-
-            int lineAmount = 0;
+            // Check whether there are more tags och genres
+            int lineAmount;
             if (genreAmount > tagAmount) lineAmount = genreAmount;
             else lineAmount = tagAmount;
-            for (int i = 0; i < genreAmount; i++)
-            {
-                //TODO Finish list printing
-            }
 
-            Console.WriteLine("These are the available genres:                   These are the available tags:");
-            foreach (Genre genre in Enum.GetValues(typeof(Genre)))
+            // Construct a line that first prints the genre, then the tag so that the tag has 50 characters before it.
+            for (int i = 0; i < lineAmount; i++)
             {
                 string line = "";
+                string genre = "";
+                string tag = "";
+                if (i < genres.Count) genre = genres[i].ToString();
+                if (i < tags.Count) tag = tags[i].ToString();
+
+                int spaces = 50 - genre.Length;
                 line += genre;
-                int spaces = 50 - line.Length;
-                for (int i = 0; i < spaces; i++)
+                for (int j = 0; j < spaces; j++)
                 {
                     line += " ";
                 }
-                line += "Heloo";
-
+                line += tag;
                 Console.WriteLine(line);
             }
-            Console.WriteLine("------------------------");
 
-            //Tags
-            Console.WriteLine("These are the available tags: ");
-            foreach (Tags tag in Enum.GetValues(typeof(Tags)))
-            {
-                Console.WriteLine(tag);
-            }
-            Console.WriteLine("------------------------");
+            Console.WriteLine("--------------------------------------------------------------------------------");
 
-            //Commands
+            // prints a list of commands
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("Blue commands require password.");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
