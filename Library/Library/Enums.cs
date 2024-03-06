@@ -12,14 +12,3 @@ enum Genre
     Drama,
     Poetry
 }
-
-[Flags]
-enum Tags
-{
-    None = 0,
-    Baby = 1,
-    Kids = 2,
-    Youth = 4,
-    Adult = 8,
-    Senior = 16,
-}

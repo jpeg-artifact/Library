@@ -4,14 +4,13 @@ namespace Library
 {
     internal class Book
     {
-        public Book(string title, string author, Genre genre, string description, int pages, Tags tags, bool isLend) 
+        public Book(string title, string author, Genre genre, string description, int pages, bool isLend) 
         {
             Title = title;
             Author = author;
             Genre = genre;
             Description = description;
             Pages = pages;
-            Tags = tags;
             IsLend = isLend;
         }
 
@@ -20,7 +19,6 @@ namespace Library
         public Genre Genre { get; set; }
         public string Description { get; set; }
         public int Pages { get; set; }
-        public Tags Tags { get; set; }
         public bool IsLend { get; set; }
     }
 }
