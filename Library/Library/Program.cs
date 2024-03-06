@@ -27,8 +27,16 @@ namespace Library
 
         static void Main(string[] args)
         {
+            // Load saved books
             ReadFile();
 
+            /*
+             * Menu  system:
+             * When a manu is created it has a list of options assigned to it.
+             * While option is highlighten and enter is pressed, the action attached to the option-object is fired.
+             */
+
+            // Create add-menu
             List<Option> addMenuOptions = new()
             {
                 new Option("Title", EditProperty),
@@ -40,6 +48,7 @@ namespace Library
             };
             addMenu = new("Add", addMenuOptions);
 
+            // Create remove-menu
             List<Option> removeMenuOptions = new()
             {
                 new Option("Title", EditProperty),
@@ -48,6 +57,7 @@ namespace Library
             };
             removeMenu = new("Remove", removeMenuOptions);
 
+            // Create search-menu
             List<Option> searchMenuOptions = new()
             {
                 new Option("Title", EditProperty),
@@ -56,6 +66,7 @@ namespace Library
             };
             searchMenu = new("Search", searchMenuOptions);
 
+            // Create edit-menu
             List<Option> editMenuOptions = new()
             {
                 new Option("Title", () => { EditProperty(); SaveFile(); }),
@@ -67,6 +78,7 @@ namespace Library
             };
             editMenu = new("Edit", editMenuOptions);
 
+            // Create censor-menu
             List<Option> censorMenuOptions = new()
             {
                 new Option("Author", EditProperty),
@@ -74,6 +86,7 @@ namespace Library
             };
             censorMenu = new("Censor", censorMenuOptions);
 
+            // Create book-menu
             List<Option> bookMenuOptions = new()
             {
                 new Option("Borrow", () => { activeBook.IsLend = true; SaveFile(); }),
@@ -81,12 +94,14 @@ namespace Library
             };
             bookMenu = new("Book", bookMenuOptions);
 
+            // Create browse-menu
             List<Option> browseMenuOptions = new()
             {
                 new Option("Refresh", () => { PrintMenu(); NukeConsole(); })
             };
             browseMenu = new("Browse", browseMenuOptions);
 
+            // Create main-menu
             List<Option> mainMenuOptions = new() 
             { 
                 new Option("Add", () => { activeMenu = addMenu; line = 0; activeBook = DefaultBook(); }),
@@ -100,18 +115,21 @@ namespace Library
             mainMenu = new("Main menu", mainMenuOptions);
             activeMenu = mainMenu;
 
-            bool isRunning = true;
-            while (isRunning)
+            // Loops the program. Prints the menu and then reads for inputs. When a input is detected the menu refreshes.
+            while (true)
             {
                 PrintMenu();
                 HandleInput();
             }
         }
+
+        // Creates and empty book-object
         static Book DefaultBook()
         {
             return new Book("None", "None", Genre.None, "None", 0, false);
         }
 
+        // Converts books-list to a JSON string and then writes it to the "LibraryData.txt" file
         static void SaveFile()
         {
             string jsonString = JsonSerializer.Serialize(books);
@@ -121,6 +139,7 @@ namespace Library
             writeFile.Close();
         }
 
+        // Converts the JSON string read from the "LibraryData.txt" file to a List<Option>
         static void ReadFile()
         {
             StreamReader readFile = new("LibraryData.txt");
@@ -129,6 +148,10 @@ namespace Library
             readFile.Close();
         }
 
+        /* Waits for the user to press a key. If the key is one of the 4 inputs it updates
+         * the corresponding variable and then breakes the loop. Allowing the program to continue
+         * in the main loop.
+         */
         static void HandleInput()
         {
             while (true)
@@ -165,6 +188,7 @@ namespace Library
             NukeConsole();
             Console.WriteLine(activeMenu.Name);
 
+            // Checks whether the menu requires any special outputs.
             if (activeMenu == bookMenu)
             {
                 activeBook.Print();
@@ -178,11 +202,13 @@ namespace Library
                 }
             }
 
+            // Loops through every option in menu
             for (int i = 0; i < activeMenu.Options.Count; i++)
             {
                 Option option = activeMenu.Options[i];
                 string lineToPrint;
 
+                // Check whether option should be highlighted or not.
                 if (i == line)
                 {
                     lineToPrint = $"> {option.Name}";
@@ -192,6 +218,7 @@ namespace Library
                     lineToPrint = $" {option.Name}";
                 }
 
+                // Checks whether the menu should have any of the following printed.
                 if (activeMenu == addMenu || activeMenu == removeMenu || activeMenu == searchMenu || activeMenu == editMenu || activeMenu == censorMenu)
                 {
                     switch (option.Name)
@@ -209,6 +236,7 @@ namespace Library
                     }
                 }
 
+                // Prints the line.
                 Console.WriteLine(lineToPrint);
             }
         }
@@ -217,6 +245,7 @@ namespace Library
         {
             Option option = activeMenu.Options[line];
 
+            // Checks which property of the book is highlighted. Then changed the property to what ever the user writes.
             Console.Write($"Enter new {option.Name}: ");
             switch (option.Name)
             {
@@ -233,6 +262,7 @@ namespace Library
             }
         }
 
+        // Check if Title and Author matches, removes book if true and then breaks out of loop early.
         static void RemoveBook()
         {
             foreach (Book book in books)
@@ -245,6 +275,7 @@ namespace Library
             }
         }
 
+        // Check if Title and Author matches, goes to the book's menu if true and then breaks out of loop early.
         static void Search()
         {
             foreach (Book book in books)
@@ -260,6 +291,7 @@ namespace Library
             }
         }
 
+        // Clear console completely. Including off screen text.
         static void NukeConsole()
         {
             Console.Clear();
