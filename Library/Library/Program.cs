@@ -9,48 +9,62 @@ namespace Library
         static List<Book> books = new();
         static List<Book> lendBooks = new();
         static int line = 0;
-        static Menu menu;
+        static Menu activeMenu;
         static void Main(string[] args)
         {
+            List<Option> addOptions = new()
+            {
+                new Option("Title", EditProperty)
+            };
+
             List<Option> mainMenuOptions = new() 
             { 
-                new Option("Add"),
+                new Option("Add", (menu) => activeMenu = ),
                 new Option("Remove"),
                 new Option("Edit"),
                 new Option("Search"),
-                new Option("i love huge c#cks")
+                new Option("Exit")
             };
             Menu mainMenu = new("Main menu", mainMenuOptions);
-            menu = mainMenu;
+            activeMenu = mainMenu;
 
             bool isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
 
-                switch (menu.Name)
+                switch (activeMenu.Name)
                 {
                     case "Main menu":
                         PrintMenu(mainMenu);
                         break;
                 }
 
-                Scroll(menu);
+                HandleInput(activeMenu);
             }
         }
 
-        static void Scroll(Menu menu)
+        static void HandleInput(Menu menu)
         {
-            ConsoleKey input = Console.ReadKey().Key;
+            while (true)
+            {
+                ConsoleKey input = Console.ReadKey().Key;
 
-            if (input == ConsoleKey.DownArrow)
-            {
-                line = (line + 1) % menu.Options.Count;
-            }
-            else if (input == ConsoleKey.UpArrow)
-            {
-                line--;
-                if (line == -1) line = menu.Options.Count - 1;
+                if (input == ConsoleKey.DownArrow)
+                {
+                    line = (line + 1) % menu.Options.Count;
+                    break;
+                }
+                else if (input == ConsoleKey.UpArrow)
+                {
+                    line--;
+                    if (line == -1) line = menu.Options.Count - 1;
+                    break;
+                }
+                else if (input == ConsoleKey.Enter)
+                {
+                    menu.Options[line].OnSelect(menu.Options[line])
+                }
             }
         }
 
@@ -70,6 +84,11 @@ namespace Library
                     Console.WriteLine($" {option.Name}");
                 }
             }
+        }
+
+        static void EditProperty()
+        {
+            Console.WriteLine("Meow");
         }
     }
 }
