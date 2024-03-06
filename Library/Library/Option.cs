@@ -8,13 +8,13 @@ namespace Library
 {
     internal class Option
     {
-        public Option(string name, Action<Menu> onSelect)
-        { 
+        public Option (string name, Action onSelect)
+        {
             Name = name;
             OnSelect = onSelect;
         }
 
         public string Name { get; set; }
-        public Action<Menu> OnSelect { get; set; }
+        public Action OnSelect { get; set; }
     }
 }

@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\22nebe\\Documents\\GitHub\\Library\\Library\\Library\\Library.csproj": {}
+    "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Library.csproj": {}
   },
   "projects": {
-    "C:\\Users\\22nebe\\Documents\\GitHub\\Library\\Library\\Library\\Library.csproj": {
+    "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Library.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\22nebe\\Documents\\GitHub\\Library\\Library\\Library\\Library.csproj",
+        "projectUniqueName": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Library.csproj",
         "projectName": "Library",
-        "projectPath": "C:\\Users\\22nebe\\Documents\\GitHub\\Library\\Library\\Library\\Library.csproj",
-        "packagesPath": "C:\\Users\\22nebe\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\22nebe\\Documents\\GitHub\\Library\\Library\\Library\\obj\\",
+        "projectPath": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Library.csproj",
+        "packagesPath": "C:\\Users\\nemol\\.nuget\\packages\\",
+        "outputPath": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\22nebe\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\nemol\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -34,6 +34,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -55,7 +60,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.200\\RuntimeIdentifierGraph.json"
         }
       }
     }

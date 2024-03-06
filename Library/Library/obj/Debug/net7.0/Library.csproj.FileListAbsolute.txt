@@ -13,3 +13,18 @@ C:\Users\22nebe\Documents\GitHub\Library\Library\Library\obj\Debug\net7.0\Librar
 C:\Users\22nebe\Documents\GitHub\Library\Library\Library\obj\Debug\net7.0\Library.genruntimeconfig.cache
 C:\Users\22nebe\Documents\GitHub\Library\Library\Library\obj\Debug\net7.0\ref\Library.dll
 C:\Users\22nebe\Documents\GitHub\Library\Library\Library\obj\Debug\net7.0\Library.sourcelink.json
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.GeneratedMSBuildEditorConfig.editorconfig
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.AssemblyInfoInputs.cache
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.AssemblyInfo.cs
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.csproj.CoreCompileInputs.cache
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.sourcelink.json
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.dll
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\refint\Library.dll
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.pdb
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\bin\Debug\net7.0\Library.exe
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\bin\Debug\net7.0\Library.deps.json
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\bin\Debug\net7.0\Library.runtimeconfig.json
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\bin\Debug\net7.0\Library.dll
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\bin\Debug\net7.0\Library.pdb
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\Library.genruntimeconfig.cache
+Z:\Bilder\Projects New\School\Programering 1\Library\Library\Library\obj\Debug\net7.0\ref\Library.dll

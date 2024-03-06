@@ -10,22 +10,29 @@ namespace Library
         static List<Book> lendBooks = new();
         static int line = 0;
         static Menu activeMenu;
+        static Menu mainMenu;
+        static Menu addMenu;
         static void Main(string[] args)
         {
             List<Option> addOptions = new()
             {
-                new Option("Title", EditProperty)
+                new Option("Title", EditProperty),
+                new Option("Author", EditProperty),
+                new Option("Genre", EditProperty),
+                new Option("Description", EditProperty),
+                new Option("Pages", EditProperty)
             };
+            addMenu = new("Add", addOptions);
 
             List<Option> mainMenuOptions = new() 
             { 
-                new Option("Add", (menu) => activeMenu = ),
-                new Option("Remove"),
-                new Option("Edit"),
-                new Option("Search"),
-                new Option("Exit")
+                new Option("Add", () => activeMenu = addMenu)
+                //new Option("Remove"),
+                //new Option("Edit"),
+                //new Option("Search"),
+                //new Option("Exit")
             };
-            Menu mainMenu = new("Main menu", mainMenuOptions);
+            mainMenu = new("Main menu", mainMenuOptions);
             activeMenu = mainMenu;
 
             bool isRunning = true;
@@ -36,15 +43,16 @@ namespace Library
                 switch (activeMenu.Name)
                 {
                     case "Main menu":
-                        PrintMenu(mainMenu);
-                        break;
+                        PrintMenu(mainMenu); break;
+                    case "Add":
+                        PrintMenu(addMenu); break;
                 }
 
-                HandleInput(activeMenu);
+                HandleInput();
             }
         }
 
-        static void HandleInput(Menu menu)
+        static void HandleInput()
         {
             while (true)
             {
@@ -52,18 +60,24 @@ namespace Library
 
                 if (input == ConsoleKey.DownArrow)
                 {
-                    line = (line + 1) % menu.Options.Count;
+                    line = (line + 1) % activeMenu.Options.Count;
                     break;
                 }
                 else if (input == ConsoleKey.UpArrow)
                 {
                     line--;
-                    if (line == -1) line = menu.Options.Count - 1;
+                    if (line == -1) line = activeMenu.Options.Count - 1;
                     break;
                 }
                 else if (input == ConsoleKey.Enter)
                 {
-                    menu.Options[line].OnSelect(menu.Options[line])
+                    activeMenu.Options[line].OnSelect();
+                    break;
+                }
+                else if (input == ConsoleKey.Escape)
+                {
+                    activeMenu = mainMenu;
+                    break;
                 }
             }
         }
@@ -88,7 +102,7 @@ namespace Library
 
         static void EditProperty()
         {
-            Console.WriteLine("Meow");
+            
         }
     }
 }
