@@ -8,10 +8,10 @@ namespace Library
     {
         static List<Book> books = new();
         static List<Book> lendBooks = new();
+        static int line = 0;
+        static Menu menu;
         static void Main(string[] args)
         {
-            int line = 0;
-
             List<Option> mainMenuOptions = new() 
             { 
                 new Option("Add"),
@@ -21,27 +21,40 @@ namespace Library
                 new Option("i love huge c#cks")
             };
             Menu mainMenu = new("Main menu", mainMenuOptions);
+            menu = mainMenu;
 
             bool isRunning = true;
             while (isRunning)
             {
                 Console.Clear();
-                PrintMenu(mainMenu, line);
-                ConsoleKey input = Console.ReadKey().Key;
 
-                if (input == ConsoleKey.DownArrow)
+                switch (menu.Name)
                 {
-                    line = (line + 1) % mainMenuOptions.Count;
+                    case "Main menu":
+                        PrintMenu(mainMenu);
+                        break;
                 }
-                else if (input == ConsoleKey.UpArrow)
-                {
-                    line--;
-                    if (line == -1) line = mainMenuOptions.Count;
-                }
+
+                Scroll(menu);
             }
         }
 
-        static void PrintMenu(Menu menu, int line)
+        static void Scroll(Menu menu)
+        {
+            ConsoleKey input = Console.ReadKey().Key;
+
+            if (input == ConsoleKey.DownArrow)
+            {
+                line = (line + 1) % menu.Options.Count;
+            }
+            else if (input == ConsoleKey.UpArrow)
+            {
+                line--;
+                if (line == -1) line = menu.Options.Count - 1;
+            }
+        }
+
+        static void PrintMenu(Menu menu)
         {
             Console.WriteLine(menu.Name);
 
