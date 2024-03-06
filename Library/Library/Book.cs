@@ -20,5 +20,25 @@ namespace Library
         public string Description { get; set; }
         public int Pages { get; set; }
         public bool IsLend { get; set; }
+
+        public void Print()
+        {
+            Console.WriteLine($"Title: {Title}");
+            Console.WriteLine($"Author: {Author}");
+            Console.WriteLine($"Genre: {Genre}");
+            Console.WriteLine($"Description: {Description}");
+            Console.WriteLine($"Pages: {Pages}");
+            if (IsLend)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Availability: Not availabe");
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("Availability: Availabe");
+            }
+            Console.ResetColor();
+        }
     }
 }

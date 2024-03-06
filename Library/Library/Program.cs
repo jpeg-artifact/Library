@@ -20,6 +20,8 @@ namespace Library
         static Menu editMenu;
         static Menu searchMenu;
         static Menu censorMenu;
+        static Menu bookMenu;
+        static Menu browseMenu;
 
         static bool goToEditFromSearch = false;
 
@@ -50,15 +52,15 @@ namespace Library
             {
                 new Option("Title", EditProperty),
                 new Option("Author", EditProperty),
-                new Option("Search", Search)
+                new Option("Search", () => { line = 0; Search(); })
             };
             searchMenu = new("Search", searchMenuOptions);
 
             List<Option> editMenuOptions = new()
             {
-                new Option("Title", () => {EditProperty(); SaveFile(); }),
-                new Option("Author", () => {EditProperty(); SaveFile(); }),
-                new Option("Genre", () => {EditProperty(); SaveFile(); }),
+                new Option("Title", () => { EditProperty(); SaveFile(); }),
+                new Option("Author", () => { EditProperty(); SaveFile(); }),
+                new Option("Genre", () => { EditProperty(); SaveFile(); }),
                 new Option("Description", () => { EditProperty(); SaveFile(); }),
                 new Option("Pages", () => { EditProperty(); SaveFile(); })
 
@@ -68,17 +70,31 @@ namespace Library
             List<Option> censorMenuOptions = new()
             {
                 new Option("Author", EditProperty),
-                new Option("Censor", () => { Censor(); SaveFile(); })
+                new Option("Censor", () => { books.RemoveAll(book => book.Author == activeBook.Author); SaveFile(); })
             };
             censorMenu = new("Censor", censorMenuOptions);
+
+            List<Option> bookMenuOptions = new()
+            {
+                new Option("Borrow", () => { activeBook.IsLend = true; SaveFile(); }),
+                new Option("Return", () => { activeBook.IsLend = false; SaveFile(); })
+            };
+            bookMenu = new("Book", bookMenuOptions);
+
+            List<Option> browseMenuOptions = new()
+            {
+                new Option("Refresh", () => { PrintMenu(); NukeConsole(); })
+            };
+            browseMenu = new("Browse", browseMenuOptions);
 
             List<Option> mainMenuOptions = new() 
             { 
                 new Option("Add", () => { activeMenu = addMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Remove", () => { activeMenu = removeMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Edit", () => { activeMenu = searchMenu; line = 0; goToEditFromSearch = true; }),
-                new Option("Search", () => { activeMenu = searchMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Censor", () => { activeMenu = censorMenu; line = 0; }),
+                new Option("Search", () => { activeMenu = searchMenu; line = 0; activeBook = DefaultBook(); }),
+                new Option("Browse", () => { activeMenu = browseMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Exit", () => Environment.Exit(0))
             };
             mainMenu = new("Main menu", mainMenuOptions);
@@ -87,13 +103,8 @@ namespace Library
             bool isRunning = true;
             while (isRunning)
             {
-                foreach (Book book in books)
-                {
-                    Console.WriteLine(book.Title + book.Author);
-                }
                 PrintMenu();
                 HandleInput();
-                Console.Clear();
             }
         }
         static Book DefaultBook()
@@ -140,7 +151,7 @@ namespace Library
                     activeMenu.Options[line].OnSelect();
                     break;
                 }
-                else if (input == ConsoleKey.Escape)
+                else if (input == ConsoleKey.Escape && activeMenu != mainMenu)
                 {
                     activeMenu = mainMenu;
                     line = 0;
@@ -151,12 +162,27 @@ namespace Library
 
         static void PrintMenu()
         {
+            NukeConsole();
             Console.WriteLine(activeMenu.Name);
+
+            if (activeMenu == bookMenu)
+            {
+                activeBook.Print();
+            }
+
+            if (activeMenu == browseMenu)
+            {
+                foreach (Book book in books)
+                {
+                    book.Print();
+                }
+            }
 
             for (int i = 0; i < activeMenu.Options.Count; i++)
             {
                 Option option = activeMenu.Options[i];
                 string lineToPrint;
+
                 if (i == line)
                 {
                     lineToPrint = $"> {option.Name}";
@@ -226,7 +252,7 @@ namespace Library
                 if (activeBook.Title == book.Title && activeBook.Author == book.Author)
                 {
                     if (goToEditFromSearch) activeMenu = editMenu;
-                    else activeMenu = mainMenu;
+                    else activeMenu = bookMenu;
                     activeBook = book;
                     goToEditFromSearch = false;
                     break;
@@ -234,18 +260,10 @@ namespace Library
             }
         }
 
-        static void Censor()
+        static void NukeConsole()
         {
-            int booksCount = books.Count;
-
-            for (int i = 0; i < booksCount; i++)
-            {
-                Book book = books[i];
-                if (activeBook.Author == book.Author)
-                {
-                    books.Remove(book);
-                }
-            }
+            Console.Clear();
+            Console.WriteLine("\x1b[3J");
         }
     }
 }

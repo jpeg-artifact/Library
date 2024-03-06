@@ -1,1 +1,1 @@
-[]
+[{"Title":"Lilla Lisa","Author":"Asil","Genre":1,"Description":"En litten flicka blir k\u00E4r i en litten pojke.","Pages":53,"IsLend":false},{"Title":"Hitta Nemo","Author":"Carl Begnt","Genre":1,"Description":"Litten fisk \u00E4r vilse.","Pages":73,"IsLend":false}]
