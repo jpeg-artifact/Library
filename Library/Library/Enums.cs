@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 enum Genre
 {
+    None,
     Fiction,
     Nonfiction,
     Folklore,
