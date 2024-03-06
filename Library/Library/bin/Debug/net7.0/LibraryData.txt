@@ -1,4 +1,1 @@
-book;Title;Author;Fiction;A book.;190;Youth;False
-book;Very cool adventure;Theodeor;Fiction;A guy goes on a coooool adventure B);289;Kids;False
-book;Very cool adventure;Billy;Fiction;A girl goes on a very cool adventure;301;Youth;False
-book;Thomas;Reber;Drama;Sexy man Thomas is soo hot;705;Baby, Adult, Senior;False
+[]

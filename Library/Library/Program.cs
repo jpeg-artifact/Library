@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
+using System.Text.Json;
 
 namespace Library
 {
@@ -11,14 +12,21 @@ namespace Library
         static List<Book> lendBooks = new();
         static int line = 0;
         static Menu activeMenu;
-        static Book activeBook;
+        static Book activeBook = DefaultBook();
 
         static Menu mainMenu;
         static Menu addMenu;
         static Menu removeMenu;
+        static Menu editMenu;
         static Menu searchMenu;
+        static Menu censorMenu;
+
+        static bool goToEditFromSearch = false;
+
         static void Main(string[] args)
         {
+            ReadFile();
+
             List<Option> addMenuOptions = new()
             {
                 new Option("Title", EditProperty),
@@ -26,7 +34,7 @@ namespace Library
                 new Option("Genre", EditProperty),
                 new Option("Description", EditProperty),
                 new Option("Pages", EditProperty),
-                new Option("Create", () => { books.Add(activeBook); activeBook = DefaultBook(); })
+                new Option("Create", () => { books.Add(activeBook); activeBook = DefaultBook(); SaveFile(); })
             };
             addMenu = new("Add", addMenuOptions);
 
@@ -46,13 +54,32 @@ namespace Library
             };
             searchMenu = new("Search", searchMenuOptions);
 
+            List<Option> editMenuOptions = new()
+            {
+                new Option("Title", () => {EditProperty(); SaveFile(); }),
+                new Option("Author", () => {EditProperty(); SaveFile(); }),
+                new Option("Genre", () => {EditProperty(); SaveFile(); }),
+                new Option("Description", () => { EditProperty(); SaveFile(); }),
+                new Option("Pages", () => { EditProperty(); SaveFile(); })
+
+            };
+            editMenu = new("Edit", editMenuOptions);
+
+            List<Option> censorMenuOptions = new()
+            {
+                new Option("Author", EditProperty),
+                new Option("Censor", () => { Censor(); SaveFile(); })
+            };
+            censorMenu = new("Censor", censorMenuOptions);
+
             List<Option> mainMenuOptions = new() 
             { 
                 new Option("Add", () => { activeMenu = addMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Remove", () => { activeMenu = removeMenu; line = 0; activeBook = DefaultBook(); }),
-                //new Option("Edit")
-                new Option("Search", () => { activeMenu = searchMenu; line = 0; activeBook = DefaultBook(); })
-                //new Option("Exit")
+                new Option("Edit", () => { activeMenu = searchMenu; line = 0; goToEditFromSearch = true; }),
+                new Option("Search", () => { activeMenu = searchMenu; line = 0; activeBook = DefaultBook(); }),
+                new Option("Censor", () => { activeMenu = censorMenu; line = 0; }),
+                new Option("Exit", () => Environment.Exit(0))
             };
             mainMenu = new("Main menu", mainMenuOptions);
             activeMenu = mainMenu;
@@ -62,7 +89,7 @@ namespace Library
             {
                 foreach (Book book in books)
                 {
-                    Console.WriteLine(book.Title);
+                    Console.WriteLine(book.Title + book.Author);
                 }
                 PrintMenu();
                 HandleInput();
@@ -72,6 +99,23 @@ namespace Library
         static Book DefaultBook()
         {
             return new Book("None", "None", Genre.None, "None", 0, false);
+        }
+
+        static void SaveFile()
+        {
+            string jsonString = JsonSerializer.Serialize(books);
+
+            StreamWriter writeFile = new("LibraryData.txt");
+            writeFile.Write(jsonString);
+            writeFile.Close();
+        }
+
+        static void ReadFile()
+        {
+            StreamReader readFile = new("LibraryData.txt");
+            string jsonString = readFile.ReadToEnd();
+            books = JsonSerializer.Deserialize<List<Book>>(jsonString);
+            readFile.Close();
         }
 
         static void HandleInput()
@@ -122,7 +166,7 @@ namespace Library
                     lineToPrint = $" {option.Name}";
                 }
 
-                if (activeMenu == addMenu || activeMenu == removeMenu || activeMenu == searchMenu)
+                if (activeMenu == addMenu || activeMenu == removeMenu || activeMenu == searchMenu || activeMenu == editMenu || activeMenu == censorMenu)
                 {
                     switch (option.Name)
                     {
@@ -181,9 +225,25 @@ namespace Library
             {
                 if (activeBook.Title == book.Title && activeBook.Author == book.Author)
                 {
+                    if (goToEditFromSearch) activeMenu = editMenu;
+                    else activeMenu = mainMenu;
                     activeBook = book;
-                    activeMenu = mainMenu;
+                    goToEditFromSearch = false;
                     break;
+                }
+            }
+        }
+
+        static void Censor()
+        {
+            int booksCount = books.Count;
+
+            for (int i = 0; i < booksCount; i++)
+            {
+                Book book = books[i];
+                if (activeBook.Author == book.Author)
+                {
+                    books.Remove(book);
                 }
             }
         }
