@@ -114,7 +114,7 @@ namespace Library
                 new Option("Browse", () => { activeMenu = browseMenu; line = 0; activeBook = DefaultBook(); }),
                 new Option("Exit", () => Environment.Exit(0))
             };
-            mainMenu = new("Main menu", mainMenuOptions);
+            mainMenu = new("Main", mainMenuOptions);
             activeMenu = mainMenu;
 
             // Loops the program. Prints the menu and then reads for inputs. When a input is detected the menu refreshes.
@@ -188,7 +188,7 @@ namespace Library
         static void PrintMenu()
         {
             NukeConsole();
-            Console.WriteLine(activeMenu.Name);
+            Console.WriteLine($"{activeMenu.Name} menu: ");
 
             // Checks whether the menu requires any special outputs.
             if (activeMenu == bookMenu)
@@ -256,11 +256,21 @@ namespace Library
                 case "Author":
                     activeBook.Author = Console.ReadLine(); break;
                 case "Genre":
-                    activeBook.Genre = Enum.Parse<Genre>(Console.ReadLine()); break;
+                    try
+                    {
+                        activeBook.Genre = Enum.Parse<Genre>(Console.ReadLine());
+                    }
+                    catch { Console.WriteLine("Invalid genre."); Console.ReadKey(); }
+                    break;
                 case "Description":
                     activeBook.Description = Console.ReadLine(); break;
                 case "Pages":
-                    activeBook.Pages = int.Parse(Console.ReadLine()); break;
+                    try
+                    {
+                        activeBook.Pages = Math.Abs(int.Parse(Console.ReadLine()));
+                    }
+                    catch { Console.WriteLine("Invalid pages."); Console.ReadKey(); }
+                    break;
             }
         }
 

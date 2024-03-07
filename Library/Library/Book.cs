@@ -30,15 +30,16 @@ namespace Library
             Console.WriteLine($"Pages: {Pages}");
             if (IsLend)
             {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Availability: Not availabe");
+                // Makes only "Not available" red. Red color code is 91
+                Console.WriteLine("Availability: \u001b[91mNot availabe\u001b[0m");
             }
             else
             {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Availability: Availabe");
+                // Makes only "Available" green. Green color code is 92
+                Console.WriteLine("Availability: \u001b[92mAvailabe\u001b[0m");
             }
             Console.ResetColor();
+            Console.WriteLine("--------------------");
         }
     }
 }
