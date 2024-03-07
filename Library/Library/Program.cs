@@ -188,7 +188,7 @@ namespace Library
         static void PrintMenu()
         {
             NukeConsole();
-            Console.WriteLine($"{activeMenu.Name} menu: ");
+            Console.WriteLine($"\u001b[94m{activeMenu.Name} menu:\u001b[0m");
 
             // Checks whether the menu requires any special outputs.
             if (activeMenu == bookMenu)
@@ -213,11 +213,11 @@ namespace Library
                 // Check whether option should be highlighted or not.
                 if (i == line)
                 {
-                    lineToPrint = $"> {option.Name}";
+                    lineToPrint = $"> \u001b[37m{option.Name}\u001b[0m";
                 }
                 else
                 {
-                    lineToPrint = $" {option.Name}";
+                    lineToPrint = $" \u001b[90m{option.Name}\u001b[0m";
                 }
 
                 // Checks whether the menu should have any of the following printed.
