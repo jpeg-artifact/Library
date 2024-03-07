@@ -99,7 +99,7 @@ namespace Library
             // Create browse-menu
             List<Option> browseMenuOptions = new()
             {
-                new Option("Refresh", () => { PrintMenu(); NukeConsole(); })
+                new Option("Refresh", PrintMenu)
             };
             browseMenu = new("Browse", browseMenuOptions);
 

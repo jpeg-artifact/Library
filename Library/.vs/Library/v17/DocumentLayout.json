@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|z:\\bilder\\projects new\\school\\programering 1\\library\\library\\library\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|solutionrelative:library\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|z:\\bilder\\projects new\\school\\programering 1\\library\\library\\library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|solutionrelative:library\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|z:\\bilder\\projects new\\school\\programering 1\\library\\library\\library\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|solutionrelative:library\\enums.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A744630E-90C8-45CC-802F-72F06FAACB34}|Library\\Library.csproj|z:\\bilder\\projects new\\school\\programering 1\\library\\library\\library\\book.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -30,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -50,7 +50,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Enums.cs",
               "DocumentMoniker": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Enums.cs",
               "RelativeDocumentMoniker": "Library\\Enums.cs",
@@ -75,13 +75,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Program.cs",
               "DocumentMoniker": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Program.cs",
               "RelativeDocumentMoniker": "Library\\Program.cs",
               "ToolTip": "Z:\\Bilder\\Projects New\\School\\Programering 1\\Library\\Library\\Library\\Program.cs",
               "RelativeToolTip": "Library\\Program.cs",
-              "ViewState": "AQIAAP4AAAAAAAAAAAAuwCUBAAA/AAAA",
+              "ViewState": "AQIAADcAAAAAAAAAAAAgwGUAAAAwAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-03-06T18:14:47.322Z",
               "EditorCaption": ""
