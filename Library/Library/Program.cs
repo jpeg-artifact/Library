@@ -27,6 +27,8 @@ namespace Library
 
         static void Main(string[] args)
         {
+
+
             // Load saved books
             ReadFile();
 
@@ -134,7 +136,7 @@ namespace Library
         {
             string jsonString = JsonSerializer.Serialize(books);
 
-            StreamWriter writeFile = new("LibraryData.txt");
+            StreamWriter writeFile = new("LibraryData.json");
             writeFile.Write(jsonString);
             writeFile.Close();
         }
@@ -142,7 +144,7 @@ namespace Library
         // Converts the JSON string read from the "LibraryData.txt" file to a List<Option>
         static void ReadFile()
         {
-            StreamReader readFile = new("LibraryData.txt");
+            StreamReader readFile = new("LibraryData.json");
             string jsonString = readFile.ReadToEnd();
             books = JsonSerializer.Deserialize<List<Book>>(jsonString);
             readFile.Close();
