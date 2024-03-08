@@ -112,7 +112,7 @@ namespace Library
             List<Option> censorMenuOptions = new()
             {
                 new Option("Author", EditProperty),
-                new Option("Censor", () => { books.RemoveAll(book => book.Author == activeBook.Author); SaveFile(); })
+                new Option("Censor", () => { books.RemoveAll(book => book.Author == activeBook.Author); SaveFile(); activeBook = DefaultBook(); })
             };
             censorMenu = new("Censor", censorMenuOptions);
 
