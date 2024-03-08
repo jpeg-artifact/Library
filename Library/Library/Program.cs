@@ -9,15 +9,19 @@ namespace Library
     internal class Program
     {
         static List<Book> books = new();
-        static List<Book> lendBooks = new();
         static int line = 0;
         static Menu activeMenu;
         static Book activeBook = DefaultBook();
+        static string? activeAuthor;
+        static string? activeTitle;
 
         static Menu mainMenu;
         static Menu addMenu;
         static Menu removeMenu;
         static Menu editMenu;
+        static Menu searchTitleAuthorMenu;
+        static Menu searchAuthorMenu;
+        static Menu searchTitleMenu;
         static Menu searchMenu;
         static Menu censorMenu;
         static Menu bookMenu;
@@ -59,12 +63,36 @@ namespace Library
             };
             removeMenu = new("Remove", removeMenuOptions);
 
-            // Create search-menu
-            List<Option> searchMenuOptions = new()
+            // Create search-title-author-menu
+            List<Option> searchTitleAuthorMenuOptions = new()
             {
                 new Option("Title", EditProperty),
                 new Option("Author", EditProperty),
                 new Option("Search", () => { line = 0; Search(); })
+            };
+            searchTitleAuthorMenu = new("Search by title and author", searchTitleAuthorMenuOptions);
+
+            // Create search-title-menu
+            List<Option> searchTitleMenuOptions = new()
+            {
+                new Option("Title", EditProperty),
+                new Option("Search", () => { line = 0; Search(); })
+            };
+            searchTitleMenu = new("Search by title", searchTitleMenuOptions);
+
+            // Create search-author-menu
+            List<Option> searchAuthorMenuOptions = new()
+            {
+                new Option("Author", EditProperty),
+                new Option("Search", () => { line = 0; Search(); })
+            };
+            searchAuthorMenu = new("Search by author", searchAuthorMenuOptions);
+
+            List<Option> searchMenuOptions = new()
+            {
+                new Option("Search by title and author", () => { activeMenu = searchTitleAuthorMenu; line = 0; }),
+                new Option("Search by title", () => { activeMenu = searchTitleMenu; line = 0; }),
+                new Option("Search by author", () => { activeMenu = searchAuthorMenu; line = 0; })
             };
             searchMenu = new("Search", searchMenuOptions);
 
@@ -193,7 +221,12 @@ namespace Library
             // Checks whether the menu requires any special outputs.
             if (activeMenu == bookMenu)
             {
-                activeBook.Print();
+                foreach (Book book in books)
+                {
+                    if (book.Title == activeTitle || book.Author == activeAuthor) book.Print();
+                    else if (book.Title == activeTitle || activeAuthor == null) book.Print();
+                    else if (book.Title == null || book.Author == activeAuthor) book.Print();
+                }
             }
 
             if (activeMenu == browseMenu)
@@ -221,7 +254,7 @@ namespace Library
                 }
 
                 // Checks whether the menu should have any of the following printed.
-                if (activeMenu == addMenu || activeMenu == removeMenu || activeMenu == searchMenu || activeMenu == editMenu || activeMenu == censorMenu)
+                if (activeMenu == addMenu || activeMenu == removeMenu || activeMenu == editMenu || activeMenu == censorMenu || activeMenu == searchAuthorMenu || activeMenu == searchTitleMenu || activeMenu == searchTitleAuthorMenu)
                 {
                     switch (option.Name)
                     {
@@ -290,16 +323,42 @@ namespace Library
         // Check if Title and Author matches, goes to the book's menu if true and then breaks out of loop early.
         static void Search()
         {
+            static void SwitchToBookMenu()
+            {
+                if (goToEditFromSearch) activeMenu = editMenu;
+                else activeMenu = bookMenu;
+                goToEditFromSearch = false;
+            }
+
             foreach (Book book in books)
             {
-                if (activeBook.Title == book.Title && activeBook.Author == book.Author)
+                switch (activeMenu.Name)
                 {
-                    if (goToEditFromSearch) activeMenu = editMenu;
-                    else activeMenu = bookMenu;
-                    activeBook = book;
-                    goToEditFromSearch = false;
-                    break;
+                    case "Search by title":
+                        if (activeBook.Title == book.Title)
+                        {
+                            SwitchToBookMenu();
+                            activeTitle = book.Title;
+                        }
+                        continue;
+                    case "Search by author":
+                        if (activeBook.Author == book.Author)
+                        {
+                            SwitchToBookMenu();
+                            activeAuthor = book.Author;
+                        }
+                        continue;
+                    case "Search by title and author":
+                        if (activeBook.Title == book.Title && activeBook.Author == book.Author)
+                        {
+                            SwitchToBookMenu();
+                            activeAuthor = book.Author;
+                            activeTitle = book.Title;
+                        }
+                        continue;
                 }
+
+                Console.WriteLine(book.Title);
             }
         }
 
