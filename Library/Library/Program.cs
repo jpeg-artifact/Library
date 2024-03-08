@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json;
@@ -12,8 +13,6 @@ namespace Library
         static int line = 0;
         static Menu activeMenu;
         static Book activeBook = DefaultBook();
-        static string? activeAuthor;
-        static string? activeTitle;
 
         static Menu mainMenu;
         static Menu addMenu;
@@ -24,6 +23,7 @@ namespace Library
         static Menu searchTitleMenu;
         static Menu searchMenu;
         static Menu censorMenu;
+        static Menu bookListMenu;
         static Menu bookMenu;
         static Menu browseMenu;
 
@@ -115,6 +115,13 @@ namespace Library
                 new Option("Censor", () => { books.RemoveAll(book => book.Author == activeBook.Author); SaveFile(); })
             };
             censorMenu = new("Censor", censorMenuOptions);
+
+            // Create book-list-menu
+            List<Option> bookListMenuOptions = new()
+            {
+                
+            };
+            bookListMenu = new("Book", bookListMenuOptions);
 
             // Create book-menu
             List<Option> bookMenuOptions = new()
@@ -221,12 +228,7 @@ namespace Library
             // Checks whether the menu requires any special outputs.
             if (activeMenu == bookMenu)
             {
-                foreach (Book book in books)
-                {
-                    if (book.Title == activeTitle || book.Author == activeAuthor) book.Print();
-                    else if (book.Title == activeTitle || activeAuthor == null) book.Print();
-                    else if (book.Title == null || book.Author == activeAuthor) book.Print();
-                }
+                activeBook.Print();
             }
 
             if (activeMenu == browseMenu)
@@ -323,11 +325,18 @@ namespace Library
         // Check if Title and Author matches, goes to the book's menu if true and then breaks out of loop early.
         static void Search()
         {
-            static void SwitchToBookMenu()
+            bookListMenu.Options.Clear();
+
+            static void SwitchToBookMenu(Book book)
             {
-                if (goToEditFromSearch) activeMenu = editMenu;
-                else activeMenu = bookMenu;
-                goToEditFromSearch = false;
+                Action action;
+                if (goToEditFromSearch) action = () => { activeBook = book; line = 0; activeMenu = editMenu; goToEditFromSearch = false; };
+                else action = () => { activeBook = book; line = 0; activeMenu = bookMenu; goToEditFromSearch = false; };
+                string availability;
+                if (book.IsLend) availability = "\u001b[91mNot available\u001b[0m";
+                else availability = "\u001b[92mAvailable\u001b[0m";
+                bookListMenu.Options.Add(new Option($"{book.Title} by {book.Author}: {availability}", action));
+                Debug.Print(book.Title);
             }
 
             foreach (Book book in books)
@@ -337,29 +346,26 @@ namespace Library
                     case "Search by title":
                         if (activeBook.Title == book.Title)
                         {
-                            SwitchToBookMenu();
-                            activeTitle = book.Title;
+                            SwitchToBookMenu(book);
                         }
-                        continue;
+                        break;
                     case "Search by author":
                         if (activeBook.Author == book.Author)
                         {
-                            SwitchToBookMenu();
-                            activeAuthor = book.Author;
+                            SwitchToBookMenu(book);
                         }
-                        continue;
+                        break;
                     case "Search by title and author":
                         if (activeBook.Title == book.Title && activeBook.Author == book.Author)
                         {
-                            SwitchToBookMenu();
-                            activeAuthor = book.Author;
-                            activeTitle = book.Title;
+                            SwitchToBookMenu(book);
                         }
-                        continue;
+                        break;
                 }
-
-                Console.WriteLine(book.Title);
             }
+
+            bookListMenu.Options.Add(new Option("Refresh", PrintMenu));
+            activeMenu = bookListMenu;
         }
 
         // Clear console completely. Including off screen text.
