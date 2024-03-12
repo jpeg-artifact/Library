@@ -28,6 +28,7 @@ namespace Library
         static Menu browseMenu;
 
         static bool goToEditFromSearch = false;
+        static bool goToRemoveFromSearch = false;
 
         static void Main(string[] args)
         {
@@ -57,9 +58,7 @@ namespace Library
             // Create remove-menu
             List<Option> removeMenuOptions = new()
             {
-                new Option("Title", EditProperty),
-                new Option("Author", EditProperty),
-                new Option("Remove", RemoveBook)
+                new Option("Remove", () => { books.Remove(activeBook); activeMenu = mainMenu; SaveFile(); })
             };
             removeMenu = new("Remove", removeMenuOptions);
 
@@ -88,6 +87,7 @@ namespace Library
             };
             searchAuthorMenu = new("Search by author", searchAuthorMenuOptions);
 
+            // Create searchMenu
             List<Option> searchMenuOptions = new()
             {
                 new Option("Search by title and author", () => { activeMenu = searchTitleAuthorMenu; line = 0; }),
@@ -142,7 +142,7 @@ namespace Library
             List<Option> mainMenuOptions = new() 
             { 
                 new Option("Add", () => { activeMenu = addMenu; line = 0; activeBook = DefaultBook(); }),
-                new Option("Remove", () => { activeMenu = removeMenu; line = 0; activeBook = DefaultBook(); }),
+                new Option("Remove", () => { activeMenu = searchMenu; goToRemoveFromSearch = true; line = 0; activeBook = DefaultBook(); }),
                 new Option("Edit", () => { activeMenu = searchMenu; line = 0; goToEditFromSearch = true; }),
                 new Option("Censor", () => { activeMenu = censorMenu; line = 0; }),
                 new Option("Search", () => { activeMenu = searchMenu; line = 0; activeBook = DefaultBook(); }),
@@ -223,10 +223,11 @@ namespace Library
         static void PrintMenu()
         {
             NukeConsole();
+            Console.WriteLine("\u001b[94mNavigation\n\u001b[96mUpp: up arrow\nDown: down arrow\nSelect: enter\nBack: esc\n\u001b[0m");
             Console.WriteLine($"\u001b[94m{activeMenu.Name} menu:\u001b[0m");
 
             // Checks whether the menu requires any special outputs.
-            if (activeMenu == bookMenu)
+            if (activeMenu == bookMenu || activeMenu == removeMenu)
             {
                 activeBook.Print();
             }
@@ -309,19 +310,6 @@ namespace Library
             }
         }
 
-        // Check if Title and Author matches, removes book if true and then breaks out of loop early.
-        static void RemoveBook()
-        {
-            foreach (Book book in books)
-            {
-                if (activeBook.Title == book.Title && activeBook.Author == book.Author)
-                {
-                    books.Remove(book);
-                    break;
-                }   
-            }
-        }
-
         // Check if Title and Author matches, goes to the book's menu if true and then breaks out of loop early.
         static void Search()
         {
@@ -331,7 +319,8 @@ namespace Library
             {
                 Action action;
                 if (goToEditFromSearch) action = () => { activeBook = book; line = 0; activeMenu = editMenu; goToEditFromSearch = false; };
-                else action = () => { activeBook = book; line = 0; activeMenu = bookMenu; goToEditFromSearch = false; };
+                else if (goToRemoveFromSearch) action = () => { activeBook = book; line = 0; activeMenu = removeMenu; goToRemoveFromSearch = false; };
+                else action = () => { activeBook = book; line = 0; activeMenu = bookMenu; };
                 string availability;
                 if (book.IsLend) availability = "\u001b[91mNot available\u001b[0m";
                 else availability = "\u001b[92mAvailable\u001b[0m";
